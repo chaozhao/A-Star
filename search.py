@@ -143,19 +143,32 @@ def get_minfvalue(aList):
     #print ("f value is ",aNode.get_fValue())
     return aNode
 
+def calculateG(a,b):
+    rowDistance = a.row - b.row
+    colDistance = a.col - b.col
+    gValue = abs(rowDistance)+abs(colDistance)
+    return gValue
+
+def calculateH(a,b):
+    rowDistance = a.row - b.row
+    colDistance = a.col - b.col
+    hValue = abs(rowDistance)+abs(colDistance)
+    return hValue
 
 def updateValues(openList,startNode,endNode):
     for i in range(len(openList)):
+        '''
         growDistance = startNode.row - openList[i].row
         gcolDistance = startNode.col - openList[i].col
         gValue = abs(growDistance)+abs(gcolDistance)
         hrowDistance = endNode.row - openList[i].row
         hcolDistance = endNode.col - openList[i].col
         hValue = abs(hrowDistance)+abs(hcolDistance)
+        '''
+        gValue = calculateG(startNode,openList[i])
+        hValue = calculateH(endNode,openList[i])
         openList[i].set_gValue(gValue)
         openList[i].set_hValue(hValue)
-
-
 if __name__== "__main__":
 
     print("Hello A star World!")
