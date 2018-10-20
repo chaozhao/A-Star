@@ -93,7 +93,6 @@ class Graph:
         E for end node
         B for blocked node
         '''
-
         for row in range(len(self.graph)):
             for column in range(len(self.graph[row])):
                 if row == self.startNode.row and column == self.startNode.col:
@@ -105,7 +104,7 @@ class Graph:
                 elif self.graph[row][column].get_walkable() == False:
                     print('[B]', end = '\t')
             print('\n')
-        print ("================graph is printing================ \n")
+        print ("================graph is printed================ \n")
 
     def getNeighborhood(self,aNode):
         x = aNode.row
@@ -136,7 +135,6 @@ def get_minfvalue(aList):
         if min > openList[i].get_fValue():
             min = openList[i].get_fValue()
             index = i
-    
     aNode = openList[index]
     openList.pop(index)
     #print ("index is ",index)
@@ -169,17 +167,18 @@ def updateValues(openList,startNode,endNode):
         hValue = calculateH(endNode,openList[i])
         openList[i].set_gValue(gValue)
         openList[i].set_hValue(hValue)
+
 if __name__== "__main__":
 
     print("Hello A star World!")
     #define graphy size
     GRAPH_ROW = 4 #index is (0 ~ 3)
     GRAPH_COLUMN = 6 #index is (0 ~ 5)
-
+    COST = 1
     #generate start node and end node
     startNode = Node(0,0)
     endNode = Node(3,5)
-
+    
     #generate blocks
     b1 = Node(0,3,0,0,False)
     b2 = Node(1,3,0,0,False)
@@ -192,30 +191,34 @@ if __name__== "__main__":
     closeList.append(startNode)
 
     g = Graph(GRAPH_COLUMN,GRAPH_ROW,startNode,endNode)
-    ''' #configure blocked node
+    ''' 
+    #configure blocked node
     g.setNode(b1)
     g.setNode(b2)
     g.setNode(b3)
     '''
     #end of configure all graph
 
-    neighbourList = g.getNeighborhood(startNode)
+    found = False
+    openList.append(startNode)
+    
+    currentNode = get_minfvalue(openList)
+    neighbourList = g.getNeighborhood(currentNode)
     openList.extend(neighbourList)
 
     updateValues(openList,startNode,endNode)
     currentNode = get_minfvalue(openList)
     closeList.append(currentNode)
     
-    '''while True:
+    
+
+    while not found:
 
         if currentNode == endNode:
-            break
-        #if end node is found then
-        #break
-    else:
-        print('no path to end node')
-    '''
-
+            found = True
+        #if end node is found then break loop    
+        
+    
     g.printGraph()
  
 
