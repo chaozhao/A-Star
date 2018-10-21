@@ -41,24 +41,7 @@ class Node:
         self.parent =aNode
 
 
-class NodeList:
-    def __init__(self, value):
-        self.value = value
-        self.parent = []
 
-    def __repr__(self):
-        return 'Node({!r})'.format(self.value)
-
-    def appendChild(self, node):
-        self.parent.append(node)
-
-    def __iter__(self):
-        return iter(self.parent)
-
-    def depth_first(self):
-        yield self
-        for c in self:
-            yield from c.depth_first()
 
 class Graph:
     def __init__(self,x,y,start,end):    

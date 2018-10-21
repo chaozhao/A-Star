@@ -6,6 +6,25 @@ class Player:
         self._lives = 3  # Use this with getter and setter. We hide lives attribute by prefixing it with underscore
         self.level = 1  # Player starts at level 1
         self.score = 0 # Player start with score 0
+        
+class NodeList:
+    def __init__(self, value):
+        self.value = value
+        self.parent = []
+
+    def __repr__(self):
+        return 'Node({!r})'.format(self.value)
+
+    def appendChild(self, node):
+        self.parent.append(node)
+
+    def __iter__(self):
+        return iter(self.parent)
+
+    def depth_first(self):
+        yield self
+        for c in self:
+            yield from c.depth_first()
 
 if __name__== "__main__":
     print("go")
