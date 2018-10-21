@@ -40,9 +40,6 @@ class Node:
     def setParent(self,aNode):
         self.parent =aNode
 
-
-
-
 class Graph:
     def __init__(self,x,y,start,end):    
         self.graph = [[Node() for row in range(x)] for column in range(y)] 
@@ -74,7 +71,7 @@ class Graph:
                 elif self.graph[row][column].get_walkable() == False:
                     print('[B]', end = '\t')
             print('\n')
-        print ("================graph is printed================ \n")
+        print ("================graph is printed================\n")
 
     def getNeighborhood(self,aNode):
         x = aNode.row
@@ -166,7 +163,9 @@ if __name__== "__main__":
     found = False
     openList.append(startNode)
 
-    currentNode = get_minfvalue(openList)
+    currentNode = get_minfvalue(openList) 
+    #todo remove from openlist
+    #todo add to closelist
     neighbourList = g.getNeighborhood(currentNode)
     openList.extend(neighbourList)
 
@@ -175,7 +174,6 @@ if __name__== "__main__":
     closeList.append(currentNode)
 
     '''while not found:
-
         if currentNode.row == endNode.row and currentNode.col == endNode.col:
             found = True
         #if end node is found then break loop    
