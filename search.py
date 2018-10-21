@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import random
-
 class Node:
     def __init__(self,x=0,y=0,hValue=0,gValue=0,walkable=True):
         self._row = x
@@ -9,7 +7,7 @@ class Node:
         self.gValue = gValue
         self.hValue = hValue
         self.isWalkable = walkable
-        self.up = None 
+        self.parent = None 
 
     @property
     def row(self): 
@@ -18,13 +16,9 @@ class Node:
     def col(self):
         return self._col
 
-    def get_gValue(self):
-        return self.gValue
     def set_gValue(self,value):
         self.gValue = value
         
-    def get_hValue(self):
-        return self.hValue
     def set_hValue(self,value):
         self.hValue = value
 
@@ -33,7 +27,6 @@ class Node:
             return self.hValue+self.gValue
         else:
             return 0
-
     def get_walkable(self):
         return self.isWalkable
 
@@ -44,14 +37,8 @@ class Node:
         self.gValue = hValue
         self.isWalkable = walkable
 
-    def setBlocked(self):
-        self.isWalkable = False
-        self.hValue = None
-        self.gValue = None
-        self.value = None
-
-    def setParents(self,aNode):
-        self.up =aNode
+    def setParent(self,aNode):
+        self.parent =aNode
 
 
 class NodeList:
@@ -141,17 +128,11 @@ def get_minfvalue(aList):
     #print ("f value is ",aNode.get_fValue())
     return aNode
 
-def calculateG(a,b):
+def calculateDistance(a,b):
     rowDistance = a.row - b.row
     colDistance = a.col - b.col
-    gValue = abs(rowDistance)+abs(colDistance)
-    return gValue
-
-def calculateH(a,b):
-    rowDistance = a.row - b.row
-    colDistance = a.col - b.col
-    hValue = abs(rowDistance)+abs(colDistance)
-    return hValue
+    distance = abs(rowDistance)+abs(colDistance)
+    return distance
 
 def updateValues(openList,startNode,endNode):
     for i in range(len(openList)):
@@ -163,8 +144,8 @@ def updateValues(openList,startNode,endNode):
         hcolDistance = endNode.col - openList[i].col
         hValue = abs(hrowDistance)+abs(hcolDistance)
         '''
-        gValue = calculateG(startNode,openList[i])
-        hValue = calculateH(endNode,openList[i])
+        gValue = calculateDistance(startNode,openList[i])
+        hValue = calculateDistance(endNode,openList[i])
         openList[i].set_gValue(gValue)
         openList[i].set_hValue(hValue)
 
@@ -177,7 +158,7 @@ if __name__== "__main__":
     COST = 1
     #generate start node and end node
     startNode = Node(0,0)
-    endNode = Node(3,5)
+    endNode = Node(GRAPH_ROW-1,GRAPH_COLUMN-1)
     
     #generate blocks
     b1 = Node(0,3,0,0,False)
@@ -201,7 +182,7 @@ if __name__== "__main__":
 
     found = False
     openList.append(startNode)
-    
+
     currentNode = get_minfvalue(openList)
     neighbourList = g.getNeighborhood(currentNode)
     openList.extend(neighbourList)
@@ -209,15 +190,13 @@ if __name__== "__main__":
     updateValues(openList,startNode,endNode)
     currentNode = get_minfvalue(openList)
     closeList.append(currentNode)
-    
-    
 
-    while not found:
+    '''while not found:
 
-        if currentNode == endNode:
+        if currentNode.row == endNode.row and currentNode.col == endNode.col:
             found = True
         #if end node is found then break loop    
-        
+    ''' 
     
     g.printGraph()
  
